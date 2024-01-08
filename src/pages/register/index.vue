@@ -13,21 +13,20 @@ export default {
     components: {Form, Alert},
     data(){
       return{
-        errMessage:false
+        errMessage:''
       }
     },
     methods:{
       setMessage:function($event){
         if(!this.errMessage){
-          console.log('teste') 
           this.errMessage = $event}
       },
       timeOutShow:function(){
         if(this.errMessage){
           
         setTimeout(()=>{
-          this.errMessage = false
-        }, 8000)
+          this.errMessage = ''
+        }, 6000)
       }
       }
     },
