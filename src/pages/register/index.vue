@@ -7,7 +7,7 @@
 
 <script>
 import Form from './components/Form'
-import Alert from './components/Alert'
+import Alert from '@/components/Alert'
 export default {
     name:'Page-Register',
     components: {Form, Alert},

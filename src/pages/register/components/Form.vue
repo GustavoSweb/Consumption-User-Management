@@ -76,7 +76,7 @@ export default {
           password: this.password,
           email: this.email,
         });
-        this.$router.push("/");
+        this.$router.push("/login");
       } catch (err) {
         if (err.form) this.$emit("onErr", err.message);
         const RES_API_ERROR =

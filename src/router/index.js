@@ -1,6 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../pages/HomeView.vue'
 import RegisterPage from '../pages/register/index'
+import LoginPage from '../pages/login/index'
+import Users from '../pages/Admin/Users/index'
+import Auth from '@/services/Auth/index'
+
+
 const routes = [
   {
     path: '/',
@@ -12,6 +17,17 @@ const routes = [
     name: 'register',
     component: RegisterPage
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage
+  },
+  {
+    path:'/admin/users',
+    name:'Users',
+    beforeEnter: Auth.ValidateAdmin,
+    component: Users
+  }
 ]
 
 const router = createRouter({
