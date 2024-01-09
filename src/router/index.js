@@ -3,7 +3,7 @@ import HomeView from '../pages/HomeView.vue'
 import RegisterPage from '../pages/register/index'
 import LoginPage from '../pages/login/index'
 import Users from '../pages/Admin/Users/index'
-import Auth from '@/services/Auth/index'
+import Auth from '@/services/User/AuthAdmin'
 
 
 const routes = [
@@ -25,7 +25,7 @@ const routes = [
   {
     path:'/admin/users',
     name:'Users',
-    beforeEnter: Auth.ValidateAdmin,
+    beforeEnter: Auth.ValidateAdmin.bind(Auth),
     component: Users
   }
 ]

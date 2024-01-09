@@ -5,17 +5,7 @@ class UserAuth {
   constructor() {
     this.token = Cookie.get("token");
   }
-  async GetUser() {
-    try {
-      if (!this.token) throw new Error("Falta de parametros");
-      const user = await api.post(`/user/me`, {
-        Headers: { Authorization: `Bearer ${this.token}` },
-      });
-      return user;
-    } catch (err) {
-      return {};
-    }
-  }
+  
   async ValidateAdmin(to, from, next) {
     try {
       if (!this.token) throw Error("Falta de parametros");
@@ -26,6 +16,7 @@ class UserAuth {
       );
       next();
     } catch (err) {
+      console.log(this.token)
       next("/login");
     }
   }
