@@ -30,7 +30,7 @@
           ]"
         >
           <div class="bg-white px-4 pb-4 pt-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
+            <div class="sm:flex sm:items-start gap-3 mt-3">
               <div
                 class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
               >
@@ -49,18 +49,16 @@
                   />
                 </svg>
               </div>
-              <div class="text-center lg:text-left mt-3">
+              <div class="lv:text-center sm:text-left">
                 <h3
                   class="text-base font-semibold leading-6 text-gray-900"
                   id="modal-title"
                 >
-                  Deactivate account
+                  Deletar Usuario !
                 </h3>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">
-                    Are you sure you want to deactivate your account? All of
-                    your data will be permanently removed. This action cannot be
-                    undone.
+                  <p class="text-sm text-gray-500 ">
+                    Tem certeza que deseja deletar este usuario? não ira poder voltar esta ação !!
                   </p>
                 </div>
               </div>
@@ -69,17 +67,17 @@
           <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
             <button
               type="button"
-              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-              @click="ActiveModal"
+              class="btn btn-danger ml-3 mr-3"
+              @click="confirmDelete"
             >
-              Deactivate
+              Deletar
             </button>
             <button
               type="button"
-              class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+              class="btn btn-outline-secondary"
               @click="ActiveModal"
             >
-              Cancel
+              Cancelar
             </button>
           </div>
         </div>
@@ -88,8 +86,14 @@
   </div>
 </template>
 <script>
+
+import User from '@/services/User/index'
+
 export default {
   name: "Modal-Alert",
+  created(){
+    this.deleteUser = User.DeleteUser.bind(User)
+  },
   methods: {
     ActiveModal: function () {
       this.isModal = false;
@@ -98,11 +102,19 @@ export default {
         this.isModal = true
       },1000)
     },
+    confirmDelete:async function(){
+      this.ActiveModal()
+      await this.deleteUser(this.deleteId)
+      this.$emit('onDeleteUser', 'true')
+    }
   },
   data() {
     return {
       isModal: true,
     };
   },
+  props:{
+    deleteId:Number
+  }
 };
 </script>

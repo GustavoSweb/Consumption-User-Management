@@ -19,32 +19,36 @@
                 <td>{{ user.name }}</td>
                 <td>{{ intToText(user.role) }}</td>
                 <td>{{ user.email }}</td>
-                <td class="flex gap-3"><button class="btn btn-warning">Editar</button><button class="btn btn-danger">Deletar</button></td>
+                <td class="flex gap-3"><button class="btn btn-warning" @click="ActiveModalEdit(user.id)">Editar</button><button class="btn btn-danger" @click="ActiveModalDelete(user.id)">Deletar</button></td>
               </tr>
             </tbody>
           </table>
         
     </div>
-    <button @click="ActiveModal"  class="btn btn-primary">Modal</button>
-    <ModalAlert v-show="onModal" :onModal="onModal" @onModalClick="ActiveModal"/>
+    <ModalAlert :deleteId="deleteId" v-show="onModalDelete" :onModal="onModalDelete" @onDeleteUser="updateList" @onModalClick="ActiveModalDelete"/>
+    <ModalEdit :userId="userId" v-show="onModalEdit" :onModal="onModalEdit" @onEditUser="updateList" @onModalClick="ActiveModalEdit"/>
   </div>
   </div>
 </template>
 
 <script>
 import User from "@/services/User/index";
-import ModalAlert from "./components/ModalAlert";
+import ModalAlert from "./components/ModalAlertDelete";
+import ModalEdit from "./components/ModalEdit";
 
 export default {
   name: "List-Users",
   async created() {
     this.users = await User.ListUsers();
   },
-  components:{ModalAlert},
+  components:{ModalAlert, ModalEdit},
   data() {
     return {
       users: [],
-      onModal: false
+      onModalDelete: false,
+      onModalEdit: false,
+      deleteId: 0,
+      userId: 0,
     };
   },
   methods:{
@@ -52,10 +56,25 @@ export default {
         var msg = value >= 2 ? 'admin' : 'user'
         return msg
     },
-    ActiveModal: function(){
-      if(this.onModal) return setTimeout(()=>{this.onModal = false}, 1000) 
-      this.onModal = true
-      console.log(this.onModal)
+    ActiveModalDelete: function(id){
+      if(!isNaN(id)) this.userId = id
+      if(this.onModalDelete) return setTimeout(()=>{this.onModalDelete = false}, 1000) 
+      this.onModalDelete = true
+    },
+    ActiveModalEdit: function(id){
+      if(!isNaN(id)) this.userId = id
+      
+      console.log(this.userId)
+      if(this.onModalEdit) return setTimeout(()=>{this.onModalEdit = false}, 1000) 
+      this.onModalEdit = true
+    },
+    updateList: async function(){
+      try{
+        this.users = await User.ListUsers()
+      console.log(this.users)
+      }catch(err){
+        console.log(err)
+      }
     }
   }
 };
